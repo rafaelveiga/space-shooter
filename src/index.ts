@@ -1,7 +1,10 @@
 import EnemySpawner from "./GameObjects/EnemySpawner";
 import Ship from "./GameObjects/Ship";
 import { GAME_HEIGHT, GAME_WIDTH } from "./constants";
-import { EnemySpawnedEventDetail } from "./types/GameEvents";
+import {
+  EnemySpawnedEventDetail,
+  ProjectileSpawnedEventDetail,
+} from "./types/GameEvents";
 import { GameObject } from "./types/GameObject";
 
 class Game implements IGame {
@@ -59,6 +62,7 @@ interface IGame {
 declare global {
   interface DocumentEventMap {
     spawnEnemy: CustomEvent<EnemySpawnedEventDetail>;
+    spawnProjectile: CustomEvent<ProjectileSpawnedEventDetail>;
   }
 }
 

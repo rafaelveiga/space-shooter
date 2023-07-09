@@ -3,8 +3,8 @@ import { GameObject } from "../types/GameObject";
 import Enemy from "./Enemy";
 
 class EnemySpawner implements GameObject {
-  x: number = 30;
-  y: number = 30;
+  x: number = 0;
+  y: number = 0;
   ctx: CanvasRenderingContext2D;
 
   constructor(ctx: CanvasRenderingContext2D, tick: number) {
@@ -18,14 +18,14 @@ class EnemySpawner implements GameObject {
   }
 
   shouldSpawnEnemy(tick: number): boolean {
-    return tick === 1 || tick % 300 === 0;
+    return tick === 1 || tick % 100 === 0;
   }
 
   spawnEnemy() {
     document.dispatchEvent(
       new CustomEvent<EnemySpawnedEventDetail>("spawnEnemy", {
         detail: {
-          enemy: new Enemy(this.ctx, this.x, this.y),
+          enemy: new Enemy(this.ctx, 30, Math.random() * 200 + 50),
         },
       })
     );
