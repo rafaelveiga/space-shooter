@@ -2,8 +2,8 @@ import { GAME_HEIGHT, GAME_WIDTH } from "../constants";
 import { GameObject } from "../types/GameObject";
 
 class Ship implements GameObject {
-  x: number = 0;
-  y: number = 400;
+  x: number = GAME_WIDTH / 2;
+  y: number = 500;
   ctx: CanvasRenderingContext2D;
   SHIP_WIDTH: number = 40;
   SHIP_HEIGHT: number = 40;
