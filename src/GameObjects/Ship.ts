@@ -1,17 +1,22 @@
 import { GAME_HEIGHT, GAME_WIDTH } from "../constants";
 import { GameObject } from "../types/GameObject";
 import Projectile from "./Projectile";
+import shipImage from "../assets/ship.png";
 
 class Ship implements GameObject {
   x: number = GAME_WIDTH / 2;
   y: number = 500;
   ctx: CanvasRenderingContext2D;
   type: "player" = "player";
-  SHIP_WIDTH: number = 40;
-  SHIP_HEIGHT: number = 40;
+  SHIP_WIDTH: number = 16;
+  SHIP_HEIGHT: number = 16;
+  image: HTMLImageElement;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
+
+    this.image = new Image();
+    this.image.src = shipImage;
 
     this.bindKeyHandlers();
   }
@@ -51,8 +56,17 @@ class Ship implements GameObject {
   }
 
   draw() {
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.x, this.y, this.SHIP_WIDTH, this.SHIP_HEIGHT);
+    this.ctx.drawImage(
+      this.image,
+      16,
+      0,
+      16,
+      16,
+      this.x,
+      this.y,
+      this.SHIP_WIDTH,
+      this.SHIP_HEIGHT
+    );
   }
 
   spawnProjectile() {
