@@ -1,4 +1,5 @@
 import Ship from "./GameObjects/Ship";
+import { GAME_HEIGHT, GAME_WIDTH } from "./constants";
 import { GameObject } from "./types/GameObject";
 
 class Game implements IGame {
@@ -12,10 +13,20 @@ class Game implements IGame {
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     this.gameObjects = [new Ship(this.ctx)];
 
+    this.setupCanvas();
+
     this.animate();
   }
 
+  setupCanvas() {
+    this.canvas.width = GAME_WIDTH;
+    this.canvas.height = GAME_HEIGHT;
+  }
+
   animate() {
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
     this.gameObjects.forEach((gameObject) => {
       gameObject.update();
     });
@@ -26,6 +37,7 @@ class Game implements IGame {
 interface IGame {
   gameObjects: GameObject[];
   animate(): void;
+  setupCanvas(): void;
 }
 
 const game: Game = new Game();
