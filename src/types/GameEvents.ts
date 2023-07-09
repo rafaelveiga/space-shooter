@@ -8,3 +8,7 @@ export interface EnemySpawnedEventDetail {
 export interface ProjectileSpawnedEventDetail {
   projectile: Projectile;
 }
+
+export interface DespawnGameObjectEventDetail {
+  uuid: string;
+}

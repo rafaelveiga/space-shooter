@@ -1,5 +1,6 @@
 import { GAME_HEIGHT, GAME_WIDTH } from "../constants";
 import { GameObject } from "../types/GameObject";
+import Projectile from "./Projectile";
 
 class Ship implements GameObject {
   x: number = GAME_WIDTH / 2;
@@ -37,6 +38,9 @@ class Ship implements GameObject {
             this.y += 10;
           }
           break;
+        case " ":
+          this.spawnProjectile();
+          break;
       }
     });
   }
@@ -48,6 +52,16 @@ class Ship implements GameObject {
   draw() {
     this.ctx.fillStyle = "red";
     this.ctx.fillRect(this.x, this.y, this.SHIP_WIDTH, this.SHIP_HEIGHT);
+  }
+
+  spawnProjectile() {
+    document.dispatchEvent(
+      new CustomEvent("spawnProjectile", {
+        detail: {
+          projectile: new Projectile(this.ctx, this.x, this.y),
+        },
+      })
+    );
   }
 }
 

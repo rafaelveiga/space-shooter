@@ -2,6 +2,7 @@ import EnemySpawner from "./GameObjects/EnemySpawner";
 import Ship from "./GameObjects/Ship";
 import { GAME_HEIGHT, GAME_WIDTH } from "./constants";
 import {
+  DespawnGameObjectEventDetail,
   EnemySpawnedEventDetail,
   ProjectileSpawnedEventDetail,
 } from "./types/GameEvents";
@@ -16,6 +17,7 @@ class Game implements IGame {
   constructor() {
     this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
+
     this.gameObjects = [
       new Ship(this.ctx),
       new EnemySpawner(this.ctx, this.tick),
@@ -50,6 +52,23 @@ class Game implements IGame {
         this.gameObjects.push(e.detail.enemy);
       }
     );
+
+    document.addEventListener(
+      "spawnProjectile",
+      (e: CustomEvent<ProjectileSpawnedEventDetail>) => {
+        this.gameObjects.push(e.detail.projectile);
+      }
+    );
+
+    document.addEventListener(
+      "despawnGameObject",
+      (e: CustomEvent<DespawnGameObjectEventDetail>) => {
+        console.log(e);
+        this.gameObjects = this.gameObjects.filter(
+          (gameObject) => gameObject.uuid !== e.detail.uuid
+        );
+      }
+    );
   }
 }
 
@@ -57,12 +76,14 @@ interface IGame {
   gameObjects: GameObject[];
   animate(): void;
   setupCanvas(): void;
+  listenToGameEvents(): void;
 }
 
 declare global {
   interface DocumentEventMap {
     spawnEnemy: CustomEvent<EnemySpawnedEventDetail>;
     spawnProjectile: CustomEvent<ProjectileSpawnedEventDetail>;
+    despawnGameObject: CustomEvent<DespawnGameObjectEventDetail>;
   }
 }
 

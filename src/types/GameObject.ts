@@ -3,4 +3,5 @@ export interface GameObject {
   y: number;
   ctx: CanvasRenderingContext2D;
   update(tick?: number): void;
+  uuid?: string;
 }
