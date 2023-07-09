@@ -1,9 +1,12 @@
 import { GAME_WIDTH } from "../constants";
 import { GameObject } from "../types/GameObject";
+import { v4 as uuidv4 } from "uuid";
 
 class Enemy implements GameObject {
   x: number = 0;
   y: number = 0;
+  type: "enemy" = "enemy";
+  uuid: string;
   ENEMY_WIDTH: number = 20;
   ENEMY_HEIGHT: number = 20;
   direction: number = 1;
@@ -13,6 +16,8 @@ class Enemy implements GameObject {
     this.ctx = ctx;
     this.x = x;
     this.y = y;
+
+    this.uuid = uuidv4();
   }
 
   update() {
@@ -35,6 +40,12 @@ class Enemy implements GameObject {
     if (this.x < 0 + 50) {
       this.direction = 1;
     }
+  }
+
+  remove() {
+    document.dispatchEvent(
+      new CustomEvent("despawnGameObject", { detail: { uuid: this.uuid } })
+    );
   }
 }
 

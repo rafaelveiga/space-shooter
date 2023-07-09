@@ -1,4 +1,6 @@
+import Enemy from "./GameObjects/Enemy";
 import EnemySpawner from "./GameObjects/EnemySpawner";
+import Projectile from "./GameObjects/Projectile";
 import Ship from "./GameObjects/Ship";
 import { GAME_HEIGHT, GAME_WIDTH } from "./constants";
 import {
@@ -42,6 +44,9 @@ class Game implements IGame {
     this.gameObjects.forEach((gameObject) => {
       gameObject.update(this.tick);
     });
+
+    this.detectProjectileCollisions();
+
     requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -63,12 +68,35 @@ class Game implements IGame {
     document.addEventListener(
       "despawnGameObject",
       (e: CustomEvent<DespawnGameObjectEventDetail>) => {
-        console.log(e);
         this.gameObjects = this.gameObjects.filter(
           (gameObject) => gameObject.uuid !== e.detail.uuid
         );
       }
     );
+  }
+
+  detectProjectileCollisions() {
+    const projectiles: Projectile[] = this.gameObjects.filter(
+      (gameObject) => gameObject.type === "projectile"
+    ) as Projectile[];
+
+    const enemies = this.gameObjects.filter(
+      (gameObject) => gameObject.type === "enemy"
+    ) as Enemy[];
+
+    projectiles.forEach((projectile) => {
+      enemies.forEach((enemy) => {
+        if (
+          projectile.x < enemy.x + enemy.ENEMY_WIDTH &&
+          projectile.x + projectile.PROJECTILE_WIDTH > enemy.x &&
+          projectile.y < enemy.y + enemy.ENEMY_HEIGHT &&
+          projectile.y + projectile.PROJECTILE_HEIGHT > enemy.y
+        ) {
+          projectile.remove();
+          enemy.remove();
+        }
+      });
+    });
   }
 }
 
@@ -77,6 +105,7 @@ interface IGame {
   animate(): void;
   setupCanvas(): void;
   listenToGameEvents(): void;
+  detectProjectileCollisions(): void;
 }
 
 declare global {

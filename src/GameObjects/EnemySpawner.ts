@@ -5,6 +5,7 @@ import Enemy from "./Enemy";
 class EnemySpawner implements GameObject {
   x: number = 0;
   y: number = 0;
+  type: "enemySpawner" = "enemySpawner";
   ctx: CanvasRenderingContext2D;
 
   constructor(ctx: CanvasRenderingContext2D, tick: number) {
@@ -29,6 +30,10 @@ class EnemySpawner implements GameObject {
         },
       })
     );
+  }
+
+  remove() {
+    // do nothing
   }
 }
 

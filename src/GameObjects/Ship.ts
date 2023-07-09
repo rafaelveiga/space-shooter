@@ -6,6 +6,7 @@ class Ship implements GameObject {
   x: number = GAME_WIDTH / 2;
   y: number = 500;
   ctx: CanvasRenderingContext2D;
+  type: "player" = "player";
   SHIP_WIDTH: number = 40;
   SHIP_HEIGHT: number = 40;
 
@@ -62,6 +63,10 @@ class Ship implements GameObject {
         },
       })
     );
+  }
+
+  remove() {
+    // do nothing
   }
 }
 

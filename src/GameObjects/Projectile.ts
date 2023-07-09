@@ -3,8 +3,11 @@ import { GameObject } from "../types/GameObject";
 
 class Projectile implements GameObject {
   x: number = 0;
+  PROJECTILE_HEIGHT: number = 5;
+  PROJECTILE_WIDTH: number = 5;
   y: number = 0;
   uuid: string;
+  type: "projectile" = "projectile";
   ctx: CanvasRenderingContext2D;
 
   constructor(ctx: CanvasRenderingContext2D, x: number, y: number) {
@@ -20,7 +23,12 @@ class Projectile implements GameObject {
 
   draw() {
     this.ctx.fillStyle = "white";
-    this.ctx.fillRect(this.x, this.y, 5, 5);
+    this.ctx.fillRect(
+      this.x,
+      this.y,
+      this.PROJECTILE_WIDTH,
+      this.PROJECTILE_HEIGHT
+    );
 
     this.y -= 5;
 
